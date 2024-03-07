@@ -1,0 +1,87 @@
+class Account:
+    def __init__(self, id, name, balance):
+        self.id = id
+        self.name = name
+        self.balance = balance
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            print(f"{amount} has been deposited. New balance: {self.balance}")
+        else:
+            print("Invalid deposit amount")
+
+    def withdraw(self, amount):
+        if 0 < amount <= self.balance:
+            self.balance -= amount
+            print(f"{amount} has been withdrawn. New balance: {self.balance}")
+        else:
+            print("Invalid withdrawal amount or insufficient funds")
+
+    def display(self):
+        print(f"Account ID: {self.id}")
+        print(f"Account holder: {self.name}")
+        print(f"Current balance: {self.balance}")
+
+class Bank:
+    def __init__(self, name):
+        self.name = name
+        self.accounts = {}
+
+    def add_account(self, account):
+        self.accounts[account.id] = account
+        print(f"Account {account.id} owned by {account.name} has been added to {self.name} Bank")
+
+    def remove_account(self, account_id):
+        if account_id in self.accounts:
+            del self.accounts[account_id]
+            print(f"Account {account_id} has been removed from {self.name} Bank")
+        else:
+            print("Account not found")
+
+    def get_account(self, account_id):
+        return self.accounts.get(account_id, None)
+
+    def all_accounts(self):
+        for account in self.accounts.values():
+            account.display()
+
+# Let's simulate some banking operations with the above classes
+
+# Create a bank
+my_bank = Bank("MyShell Bank")
+
+# Create some accounts
+account1 = Account(1, "Alice", 1000)
+account2 = Account(2, "Bob", 1500)
+
+# Add accounts to the bank
+my_bank.add_account(account1)
+my_bank.add_account(account2)
+
+# Display all accounts in the bank
+my_bank.all_accounts()
+
+# Deposit money into account 1
+account1.deposit(500)
+
+# Withdraw money from account 2
+account2.withdraw(200)
+
+# Attempt to withdraw more money than is in account 2
+account2.withdraw(2000)
+
+# Display account details for account 1
+account1.display()
+
+# Remove account 1 from the bank
+my_bank.remove_account(1)
+
+# Try to get the deleted account
+deleted_account = my_bank.get_account(1)
+if deleted_account:
+    deleted_account.display()
+else:
+    print("Account 1 does not exist.")
+
+# Remaining lines can be used to extend functionality, add error handling, or further test the system.
